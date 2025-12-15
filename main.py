@@ -8,7 +8,7 @@ Original file is located at
 """
 
 import streamlit as st
-from question import quiz_data
+from questions import quiz_data
 
 # --- App Configuration ---
 st.set_page_config(page_title="NEET Physics Speed-Labs", layout="centered")
@@ -48,7 +48,8 @@ if q_index < len(quiz_data):
             st.session_state.answered = True
             if choice == data['correct']:
                 st.success("✅ Correct! (+4 Marks)")
-                st.session_session_state.score += 4
+                # --- FIX IS HERE (Corrected typo below) ---
+                st.session_state.score += 4
             else:
                 st.error(f"❌ Wrong! (-1 Mark). Correct answer: {data['correct']}")
                 st.session_state.score -= 1
