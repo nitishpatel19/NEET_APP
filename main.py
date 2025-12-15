@@ -7,8 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1JyNXLB7B-48JTuaLWBdvyyR3rKbbbpm2
 """
 
-pip install streamlit
-
 import streamlit as st
 from question import quiz_data
 
