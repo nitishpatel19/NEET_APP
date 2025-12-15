@@ -8,9 +8,36 @@ Original file is located at
 """
 
 import streamlit as st
-from questions import quiz_data
 
-# --- App Configuration ---
+# --- 1. DATA SECTION (Formerly questions.py) ---
+quiz_data = [
+    {
+        "topic": "Kinematics",
+        "question": r"A particle is projected at $45^\circ$ with velocity $v$. The ratio of the range to the maximum height ($R/H$) is:",
+        "options": ["1", "2", "4", "8"],
+        "correct": "4",
+        "solution": r"Formula method: $R = \frac{u^2 \sin 2\theta}{g}$ and $H = \frac{u^2 \sin^2 \theta}{2g}$. Divide them: $\frac{R}{H} = \frac{\sin 2\theta}{\sin^2 \theta / 2} = \frac{2 \sin\theta \cos\theta \cdot 2}{\sin^2 \theta} = 4 \cot\theta$. At $45^\circ$, $\cot 45 = 1$, so Ratio = 4.",
+        "trick": "Memory Hack: For any projectile, remember the relation $R = 4H \cot \theta$. If angle is $45^\circ$, $\cot 45 = 1$, so directly $R = 4H$."
+    },
+    {
+        "topic": "Laws of Motion",
+        "question": r"A block of mass 2kg is suspended by a rope from a lift moving UP with acceleration $2 m/s^2$. Take $g=10 m/s^2$. Tension in rope is:",
+        "options": ["16 N", "20 N", "24 N", "28 N"],
+        "correct": "24 N",
+        "solution": r"Standard method: Draw FBD. $T - mg = ma \Rightarrow T = m(g+a) = 2(10+2) = 24 N$.",
+        "trick": "Lift Trick: When independent mass enters a 'G-Force' zone: Moving UP = Heavier ($g_{eff} = g+a$). Moving DOWN = Lighter ($g_{eff} = g-a$). Here UP, so $2 \times (10+2) = 24$."
+    },
+    {
+        "topic": "Work, Energy & Power",
+        "question": r"A body moves with velocity $v = k \sqrt{x}$. The work done by net force is proportional to:",
+        "options": [r"$x$", r"$x^2$", r"$x^{3/2}$", r"$\sqrt{x}$"],
+        "correct": r"$x$",
+        "solution": r"Integration method: $a = v \frac{dv}{dx}$. Calculate Force $F=ma$, then Integrate $\int F dx$. Lengthy process.",
+        "trick": "Dimensional Hack: Work = Change in KE (Work-Energy Theorem). $KE = \frac{1}{2}mv^2$. Since $v \propto \sqrt{x}$, then $v^2 \propto x$. Therefore, $KE \propto x$, so Work $\propto x$. No calculus needed!"
+    }
+]
+
+# --- 2. APP ENGINE (Main Logic) ---
 st.set_page_config(page_title="NEET Physics Speed-Labs", layout="centered")
 
 # --- Session State (Memory) ---
@@ -28,6 +55,7 @@ st.markdown("---")
 
 # --- Game Logic ---
 q_index = st.session_state.current_q
+
 if q_index < len(quiz_data):
     data = quiz_data[q_index]
 
@@ -48,7 +76,6 @@ if q_index < len(quiz_data):
             st.session_state.answered = True
             if choice == data['correct']:
                 st.success("✅ Correct! (+4 Marks)")
-                # --- FIX IS HERE (Corrected typo below) ---
                 st.session_state.score += 4
             else:
                 st.error(f"❌ Wrong! (-1 Mark). Correct answer: {data['correct']}")
